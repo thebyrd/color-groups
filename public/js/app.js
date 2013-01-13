@@ -109,6 +109,7 @@ Grid.prototype.render = function () {
   for (var colorID in this.cellsByID) {
     var coloredCell = this.cellsByID[colorID];
     colorCntxt.fillStyle = coloredCell.color;
+    console.log('cell' + colorID + ' is ' + coloredCell.color);
     colorCntxt.fillRect(20 * coloredCell.x, 20 * coloredCell.y, 20, 20);
   }
 };
