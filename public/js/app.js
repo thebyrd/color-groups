@@ -9,8 +9,12 @@ var Help = {
     } 
     return matrix; 
   },
-  randColor: function () { //From Paul Irish's Blog
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  randColor: function () {
+    var hex = (Math.random() * 0xEEEEEE << 0);
+    if (hex < (0x100000 << 0)) {
+      hex = 0x100000;
+    }
+    return '#' + hex.toString(16);
   }
 };
 
@@ -28,12 +32,6 @@ function Grid (height, width) {
   this.neighborsByCellID = {};
 
   var matrix = Help.createMatrix(this.height, this.width);
-
-  // matrix = [
-  //   [1,0,1],
-  //   [1,0,1],
-  //   [1,0,1]
-  // ];
 
   this.populateMaps(matrix);
   this.setColors();
@@ -102,13 +100,11 @@ Grid.prototype.render = function () {
 
   var grayCnvs = document.getElementsByClassName('grayscale')[0];
   var grayCntxt = grayCnvs.getContext('2d');
+  grayCntxt.fillStyle = 'black';
 
   for (var grayID in this.cellsByID) {
     var grayCell = this.cellsByID[grayID];
-
-    grayCntxt.fillStyle = 'black';
     grayCntxt.fillRect(20 * grayCell.x, 20 * grayCell.y, 20, 20);
-
   }
 
   var colorCnvs = document.getElementsByClassName('colorful')[0]; 
@@ -116,9 +112,7 @@ Grid.prototype.render = function () {
 
   for (var colorID in this.cellsByID) {
     var coloredCell = this.cellsByID[colorID];
-    colorCntxt.fillStyle = coloredCell.color; //Canvas is not very reliable
+    colorCntxt.fillStyle = coloredCell.color;
     colorCntxt.fillRect(20 * coloredCell.x, 20 * coloredCell.y, 20, 20);
-    if (colorCntxt.fillStyle != coloredCell.color)
-      console.log('cell' + colorID + ' is ' + coloredCell.color + ' but canvas decided to draw with fillStyle: ' + colorCntxt.fillStyle);
   }
 };
