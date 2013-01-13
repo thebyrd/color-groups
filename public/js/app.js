@@ -38,18 +38,18 @@ Grid.prototype.populateMaps = function (binaryMatrix) {
       var hasColor = m[y][x];
       if (hasColor) {
 
-        // get neighbors (left, right, bottom, top)
-        var neighbors = [];
-
-        if (m[y-1]    !== undefined && m[y-1][x]) neighbors.push( new Cell(x, y-1) );
-        if (m[y+1]    !== undefined && m[y+1][x]) neighbors.push( new Cell(x, y+1) );
-        if (m[y][x-1] !== undefined && m[y][x-1]) neighbors.push( new Cell(x-1, y) );
-        if (m[y][x+1] !== undefined && m[y][x+1]) neighbors.push( new Cell(x+1, y) );
-
         // if the cell already exists in the cellsByID map use that cell for storing neighbors
         var cell = new Cell(x,y);
         this.cellsByID[cell.id] ? 
-          cell = this.cellsByID[cell.id] : this.cellsByID[cell.id] = cell
+          cell = this.cellsByID[cell.id] : this.cellsByID[cell.id] = cell;
+
+        // get neighbors (left, right, bottom, top)
+        var neighbors = [];
+
+        if (m[y-1]    !== undefined && m[y-1][x] == 1) neighbors.push( new Cell(x, y-1) );
+        if (m[y+1]    !== undefined && m[y+1][x] == 1) neighbors.push( new Cell(x, y+1) );
+        if (m[y][x-1] !== undefined && m[y][x-1] == 1) neighbors.push( new Cell(x-1, y) );
+        if (m[y][x+1] !== undefined && m[y][x+1] == 1) neighbors.push( new Cell(x+1, y) );
 
         this.neighborsByCellID[cell.id] = neighbors;
 
