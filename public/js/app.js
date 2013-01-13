@@ -49,8 +49,7 @@ Grid.prototype.populateMaps = function (binaryMatrix) {
         this.cellsByID[cell.id] ? 
           cell = this.cellsByID[cell.id] : this.cellsByID[cell.id] = cell
 
-        if (neighbors.length > 0)
-          this.neighborsByCellID[cell.id] = neighbors;
+        this.neighborsByCellID[cell.id] = neighbors;
 
         for (var i = 0; i < neighbors.length; i++) this.cellsByID[neighbors[i].id] = neighbors[i];
         
@@ -60,21 +59,25 @@ Grid.prototype.populateMaps = function (binaryMatrix) {
 };
 
 Grid.prototype.setColors = function () {
+  var color;
   for (var id in this.cellsByID) {
     var cell = this.cellsByID[id];
-    if (cell.color !== undefined) continue; //skip if color has been set
-    var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-    cell.color = color;
-    var queue = [];
-    queue.push(cell);
-    while (queue.length > 0) {
-      var next = queue.shift();
-      var neighbors = this.neighborsByCellID[next.id] || [];
-      for (var i = 0; i < neighbors.length; i++) {
-        var n = neighbors[i];
-        if (n.color === undefined) {
-          n.color = color;
-          queue.push(n);
+    if (cell.color === undefined) {
+
+      color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+      cell.color = color;
+
+      var queue = [];
+      queue.push(cell);
+      while (queue.length > 0) {
+        var next = queue.shift();
+        var neighbors = this.neighborsByCellID[next.id];
+        for (var i = 0; i < neighbors.length; i++) {
+          var n = neighbors[i];
+          if (n.color === undefined) {
+            n.color = color;
+            queue.push(n);
+          }
         }
       }
     }
@@ -99,5 +102,6 @@ Grid.prototype.render = function () {
     cntxt2.fillRect(20 * cell2.x, 20 * cell2.y, 20, 20);
   }
 };
+
 var g = new Grid(20, 20);
 g.render();
