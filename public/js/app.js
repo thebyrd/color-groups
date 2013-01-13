@@ -10,11 +10,7 @@ var Help = {
     return matrix; 
   },
   randColor: function () {
-    var hex = (Math.random() * 0xEEEEEE << 0);
-    if (hex < (0x100000 << 0)) {
-      hex = 0x100000;
-    }
-    return '#' + hex.toString(16);
+    return '#' + ((Math.random() * 0xEEEEEE << 0) + (0x100000 << 0)).toString(16);
   }
 };
 
