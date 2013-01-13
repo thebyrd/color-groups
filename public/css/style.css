@@ -1,0 +1,17 @@
+.grids {
+  width: 440px;
+  margin: 100px auto;
+  overflow: auto;
+}
+
+canvas {
+  height: 200px;
+  width: 200px;
+}
+.grayscale {
+  float: left;
+}
+
+.colorful {
+  float: right;
+}
